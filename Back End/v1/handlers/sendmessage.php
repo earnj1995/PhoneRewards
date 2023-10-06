@@ -3,7 +3,7 @@ if(!defined('API')) die();
 
 ValidateClerkCode();
 
-$input = $_GET;
+$input = $_POST;
 
 assertData($input, array(        
     'message' => 'string'    
