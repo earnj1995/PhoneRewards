@@ -20,6 +20,9 @@ export class LoginPage implements OnInit {
   ) {}
 
   ngOnInit() {}
+  ionViewWillEnter() {
+  this.phoneNumber = '';
+  }
   login() {
     this.jkaneSvc.getPoints(this.phoneNumber).subscribe((data: any) => {
       console.log(data);
@@ -35,7 +38,6 @@ export class LoginPage implements OnInit {
     this.jkaneSvc.signup(this.newCustomer).subscribe((data: any) => {
       console.log(data);
       // this.router.navigateByUrl('tabs/tab1');
-      
     });
   }
 }

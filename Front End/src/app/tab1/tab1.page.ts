@@ -41,7 +41,9 @@ export class Tab1Page {
             this.currentCustomer.id
           )
           .subscribe((data: any) => {
-            console.log(data);
+            this.currentCustomer.balance = Number(
+              this.currentCustomer.balance - this.selectedReward.value
+            );
           });
       },
     },
@@ -108,6 +110,7 @@ export class Tab1Page {
     await alert.present();
   }
   logout() {
+    this.currentCustomer = null;
     this.router.navigateByUrl('/login');
   }
 }
