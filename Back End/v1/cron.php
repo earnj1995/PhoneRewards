@@ -1,6 +1,6 @@
 <?php
-require_once('../../resources/api.config.php');
-require_once('../../resources/database.php');
+require_once('resources/api.config.php');
+require_once('resources/database.php');
 $database = Database::GetDatabase();
 
 $lastCron = $database->fetch('SELECT value FROM system WHERE name = ?', array('lastcron'));
@@ -27,14 +27,12 @@ foreach($jobs as $job)
     $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     
-    if($responseCode === 201)
-    {
-        $database->execute('DELETE FROM smsjobs WHERE id = ?', array($job['id']));
-    }
-    else
+    if($responseCode !== 201)
     {
         $database->execute('INSERT INTO failedjobs (jobid, userid, message, response) VALUES (?, ?, ?, ?)', array($job['id'], $job['userid'], $job['message'], $responseCode . '\n' . $response));
     }
+
+    $database->execute('DELETE FROM smsjobs WHERE id = ?', array($job['id']));        
 }
 
 $database->execute('REPLACE INTO system (name, value) VALUES (?, ?)', array('lastcron', date('Y-m-d H:i:s')));

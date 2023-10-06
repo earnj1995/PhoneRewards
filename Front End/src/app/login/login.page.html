@@ -1,31 +1,85 @@
-
-
-<ion-content color="medium" class="ion-padding-end ion-padding-start" [fullscreen]="true">
+<ion-content
+  color="medium"
+  class="ion-padding-end ion-padding-start"
+  [fullscreen]="true"
+>
   <ion-card color="light">
-    <ion-card-header >
-      <ion-card-title class="ion-text-center">Welcome to Earnest's rewards</ion-card-title>
-  </ion-card-header>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center"
+        >Welcome to Earnest's rewards</ion-card-title
+      >
+    </ion-card-header>
   </ion-card>
-  <ion-card color="light">
-  <ion-card-content class="ion-margin-top">
-    <ion-card-subtitle class="ion-text-center ion-margin-bottom">Please Enter Your Phone Number</ion-card-subtitle>
-    <ion-grid class="ion-margin">
-      <ion-row class="ion-justify-content-center">
-        <ion-col size="6">
-          <ion-input max="12" color="medium" type="tel" [(ngModel)]="this.PhoneNumber"  placeholder="Phone number"></ion-input>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size="6">
-          <ion-button  color="medium" expand="block" (click)="login()">Get My Rewards</ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size="6">
-          <ion-button  color="medium" expand="block" (click)="signup()">New Customer</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
+  <ion-card *ngIf="!this.signingUp" color="light">
+    <ion-card-content class="ion-margin-top">
+      <ion-card-subtitle class="ion-text-center ion-margin-bottom"
+        >Please Enter Your Phone Number</ion-card-subtitle
+      >
+      <ion-grid class="ion-margin">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6">
+            <ion-input
+              max="12"
+              color="medium"
+              type="tel"
+              [(ngModel)]="this.phoneNumber"
+              placeholder="Phone number"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6">
+            <ion-button color="medium" expand="block" (click)="login()"
+              >Get My Rewards</ion-button
+            >
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6">
+            <ion-button color="medium" expand="block" (click)="signup()"
+              >New Customer</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="this.signingUp" color="light">
+    <ion-card-content class="ion-margin-top">
+      <ion-card-subtitle class="ion-text-center ion-margin-bottom"
+        >Please Enter Your Phone Number</ion-card-subtitle
+      >
+      <ion-grid class="ion-margin">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6">
+            <ion-input
+              max="12"
+              color="medium"
+              type="text"
+              [(ngModel)]="this.newCustomer.name"
+              placeholder="Enter Name"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6">
+            <ion-input
+              max="12"
+              color="medium"
+              type="tel"
+              [(ngModel)]="this.newCustomer.phone"
+              placeholder="Phone number"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="6">
+            <ion-button color="medium" expand="block" (click)="completeSignup()"
+              >Earn Rewards</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
   </ion-card>
 </ion-content>

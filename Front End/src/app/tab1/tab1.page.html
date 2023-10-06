@@ -24,7 +24,7 @@
         <ion-grid>
           <ion-row >
             <ion-col  *ngFor="let reward of rewards" size="6">
-              <ion-button *ngIf="this.reward.value <= this.currentCustomer.points" expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
+              <ion-button *ngIf="this.reward.value <= this.currentCustomer.balance" expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
 
                 <ion-card class="ion-no-margin">
                   <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
@@ -64,7 +64,7 @@
                   </ion-col>
                   <ion-col size="12">
                     <ion-text class="ion-bold">
-                    Total Points: {{this.currentCustomer.points}} Points
+                    Total Points: {{this.currentCustomer.balance}} Points
                     </ion-text>
                   </ion-col>
                 </ion-row>
@@ -97,10 +97,10 @@
                 </ion-row>
                 <ion-row>
                   <ion-col size="12">
-                   Existing Points: {{this.currentCustomer.points}}
+                   Existing Points: {{this.currentCustomer.balance}}
                   </ion-col>
                   <ion-col size="12">
-                    Points After Redemption: {{this.currentCustomer.points - this.selectedReward.value}}
+                    Points After Redemption: {{this.currentCustomer.balance - this.selectedReward.value}}
                   </ion-col>
                 </ion-row>
                 <ion-row class="ion-padding-top">
