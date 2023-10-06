@@ -29,7 +29,8 @@ $user = $database->fetch('SELECT id FROM users WHERE phonenumber = ?', array($ph
 if(count($user) === 0)
     error(500, 'Failed to add customer');
 
-$database->execute('INSERT INTO smsjobs (id, userid, message) VALUES (NULL, ?, ?)', array($user[0]['id'], WELCOME_MESSAGE));
+if($database->execute('INSERT INTO smsjobs (id, userid, message) VALUES (NULL, ?, ?)', array($user[0]['id'], WELCOME_MESSAGE)) !== true)
+    error(500, 'Failed to add welcome message');
 
 echo(json_encode(array('success' => true)));
 ?>
