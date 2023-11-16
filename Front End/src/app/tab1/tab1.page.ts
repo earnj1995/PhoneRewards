@@ -1,6 +1,7 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { UserService } from '../user.service';
 import { JkaneSvcService } from '../services/jkane-svc.service';
 @Component({
@@ -21,8 +22,10 @@ export class Tab1Page {
   currentCustomer: any | null = null;
 
   clerkCode: any | null = null;
+  pointsToAdd: any
+  
 
-  public alertButtons = [
+  public redeemPointsButtons = [
     {
       text: 'Cancel',
       role: 'cancel',
@@ -36,11 +39,12 @@ export class Tab1Page {
       handler: (data: any) => {
         this.jkaneSvc
           .redeemPoints(
-            Number(this.currentCustomer.balance - this.selectedReward.value),
+            Number(-this.selectedReward.value),
             data[0],
             this.currentCustomer.id
           )
           .subscribe((data: any) => {
+            this.presentToast('Points Redemption Successful!', 'top', 2500);
             this.currentCustomer.balance = Number(
               this.currentCustomer.balance - this.selectedReward.value
             );
@@ -48,6 +52,50 @@ export class Tab1Page {
       },
     },
   ];
+  public addPointsButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: (data: any) => {
+        this.pointsToAdd = data[0]
+        this.jkaneSvc
+        .redeemPoints(
+          Number(data[0]),
+          this.clerkCode,
+          this.currentCustomer.id
+        )
+        .subscribe((data: any) => {
+          this.presentToast('Points Added Successfully!', 'top', 2500);
+          this.currentCustomer.balance = Number(this.currentCustomer.balance) + Number(this.pointsToAdd)
+        });
+      },
+    },
+  ];
+  public addPointsButtonsClerk = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: (data: any) => {
+        this.clerkCode = data[0]
+        this.addPoints();
+      },
+    },
+  ];
+
   public alertInputs = [
     {
       placeholder: 'Name',
@@ -74,14 +122,18 @@ export class Tab1Page {
     private alertController: AlertController,
     private router: Router,
     public userSvc: UserService,
-    private jkaneSvc: JkaneSvcService
+    private jkaneSvc: JkaneSvcService,
+    private toastrController: ToastController
   ) {
     this.currentCustomer = this.userSvc.getCurrentCustomer();
   }
-  ngInit() {
-    console.log(this.currentCustomer);
+ 
+  ionViewWillEnter(){
+    this.currentCustomer = this.userSvc.getCurrentCustomer();
   }
-
+ionViewDidEnter(){
+  console.log(this.currentCustomer)
+}
   selectReward(reward: any) {
     this.selectedReward = reward;
   }
@@ -90,10 +142,10 @@ export class Tab1Page {
   }
   redeemRewardSelection() {
     if (this.currentCustomer.balance - this.selectedReward.value >= 0) {
-      this.clerkAlert();
+      this.clerkAlertRedeem();
     }
   }
-  async clerkAlert() {
+  async clerkAlertRedeem() {
     const alert = await this.alertController.create({
       header: 'Enter Clerk Code',
       inputs: [
@@ -104,7 +156,39 @@ export class Tab1Page {
           max: 100,
         },
       ],
-      buttons: this.alertButtons,
+      buttons: this.redeemPointsButtons,
+    });
+
+    await alert.present();
+  }
+  async clerkAlertAdd() {
+    const alert = await this.alertController.create({
+      header: 'Enter Clerk Code',
+      inputs: [
+        {
+          type: 'number',
+          placeholder: 'Code',
+          min: 1,
+          max: 100,
+        },
+      ],
+      buttons: this.addPointsButtonsClerk,
+    });
+
+    await alert.present();
+  }
+  async addPoints(){
+    const alert = await this.alertController.create({
+      header: 'Add points',
+      inputs: [
+        {
+          type: 'number',
+          placeholder: 'Points',
+          min: 1,
+          max: 1000,
+        },
+      ],
+      buttons: this.addPointsButtons,
     });
 
     await alert.present();
@@ -112,5 +196,13 @@ export class Tab1Page {
   logout() {
     this.currentCustomer = null;
     this.router.navigateByUrl('/login');
+  }
+  async presentToast(msg: string, pos: 'top' | 'middle' | 'bottom', dur: number){
+    const toast = await this.toastrController.create({
+      message: msg,
+      duration: dur,
+      position: pos
+    })
+    await toast.present();
   }
 }
