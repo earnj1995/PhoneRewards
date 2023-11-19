@@ -17,6 +17,22 @@ OR
 
     403 if not valid
 
+#### To validate clerk code:
+/v1/api/clerkcode
+
+    GET:
+    storepin: string
+    clerkcode: string
+RESPONSE
+
+    {
+        "success": true
+    }
+    
+OR
+
+    403 if not valid
+
 #### ALL REQUESTS:
 GET:
 
