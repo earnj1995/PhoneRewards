@@ -13,7 +13,7 @@ import { Location } from '@angular/common';
 export class Tab2Page {
   msg:string = ''
   clerkCode: any | null = null;
-  public addPointsButtonsClerk = [
+  public alertButtons = [
     {
       text: 'Cancel',
       role: 'cancel',
@@ -26,14 +26,7 @@ export class Tab2Page {
       text: 'OK',
       role: 'confirm',
       handler: (data: any) => {
-       if(data[0] === '1234'){
-        this.clerkCode = data[0]
-        return true;
-       }else{
-        this.presentToast('Invalid Clerk Code', 'top', 2500)
-        this.router.navigateByUrl('/tabs/tab1')
-        return false;
-       }
+      this.validateClerkCode(data[0]);
       },
     },
   ];
@@ -45,9 +38,9 @@ export class Tab2Page {
     private location: Location) {}
 
   ionViewWillEnter(){
-   this.clerkAlertAdd()
+   this.clerkAlert()
   }
-  async clerkAlertAdd() {
+  async clerkAlert() {
     const alert = await this.alertController.create({
       header: 'Please Enter Clerk Code',
       inputs: [
@@ -58,11 +51,21 @@ export class Tab2Page {
           max: 100,
         },
       ],
-      buttons: this.addPointsButtonsClerk,
+      buttons: this.alertButtons,
       cssClass: 'redeem-alert'
     });
 
     await alert.present();
+    var alertInput = document.querySelector('ion-alert input');
+
+    // Add a keyup event listener
+    alertInput!.addEventListener('keyup', (event: any) => {
+      if (event.key === 'Enter') {
+        let inputValue = (event.target as HTMLInputElement).value;
+        this.validateClerkCode(inputValue.trim());
+        alert.dismiss();
+      }
+    });
   }
   sendMsg() {
     if(this.msg.trim() !== ''){
@@ -78,6 +81,16 @@ export class Tab2Page {
       position: pos
     })
     await toast.present();
+  }
+  validateClerkCode(code: any){
+    if(code === '1234'){
+      this.clerkCode = code
+      return true;
+     }else{
+      this.presentToast('Invalid Clerk Code', 'top', 2500)
+      this.router.navigateByUrl('/tabs/tab1')
+      return false;
+     }
   }
 
 }

@@ -7,7 +7,7 @@
   <ion-card color="light">
     <ion-card-header>
       <ion-card-title class="ion-text-center"
-        >Welcome to Earnest's rewards</ion-card-title
+        >Welcome to J Kane's Vape Shop Rewards</ion-card-title
       >
     </ion-card-header>
   </ion-card>
@@ -26,6 +26,7 @@
               type="tel"
               [(ngModel)]="this.phoneNumber"
               placeholder="Phone number"
+              (keyup.enter)="this.login()" 
             ></ion-input>
           </ion-col>
         </ion-row>
@@ -73,6 +74,7 @@
               type="tel"
               [(ngModel)]="this.newCustomer.phone"
               placeholder="Phone number"
+              (keyup.enter)="this.completeSignup()"
             ></ion-input>
           </ion-col>
         </ion-row>
@@ -87,3 +89,4 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+<ion-button color="light" (click)="this.promptStoreCode()" >Enter Store Code</ion-button>

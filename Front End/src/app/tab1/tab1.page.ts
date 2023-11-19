@@ -65,17 +65,8 @@ export class Tab1Page {
       text: 'OK',
       role: 'confirm',
       handler: (data: any) => {
-        this.pointsToAdd = data[0]
-        this.jkaneSvc
-        .redeemPoints(
-          Number(data[0]),
-          this.clerkCode,
-          this.currentCustomer.id
-        )
-        .subscribe((data: any) => {
-          this.presentToast('Points Added Successfully!', 'top', 2500);
-          this.currentCustomer.balance = Number(this.currentCustomer.balance) + Number(this.pointsToAdd)
-        });
+        this.addPointsValue(data[0]);
+       
       },
     },
   ];
@@ -91,9 +82,7 @@ export class Tab1Page {
       text: 'OK',
       role: 'confirm',
       handler: (data: any) => {
-        this.clerkCode = data[0]
-      this.addPoints();
-      this.selectedReward = null;
+        this.addPointsClerkCode(data[0]);
       },
     },
   ];
@@ -177,10 +166,21 @@ export class Tab1Page {
           max: 100,
         },
       ],
+      cssClass: 'redeem-alert',
       buttons: this.addPointsButtonsClerk,
     });
 
     await alert.present();
+    var alertInput = document.querySelector('ion-alert input');
+
+    // Add a keyup event listener
+    alertInput!.addEventListener('keyup', (event: any) => {
+      if (event.key === 'Enter') {
+        let inputValue = (event.target as HTMLInputElement).value;
+        this.addPointsClerkCode(inputValue.trim());
+        alert.dismiss();
+      }
+    });
   }
   async addPoints(){
     const alert = await this.alertController.create({
@@ -198,6 +198,17 @@ export class Tab1Page {
     });
 
     await alert.present();
+    var alertInput = document.querySelector('ion-alert input');
+
+    // Add a keyup event listener
+    alertInput!.addEventListener('keyup', (event: any) => {
+      if (event.key === 'Enter') {
+        let inputValue = (event.target as HTMLInputElement).value;
+        this.addPointsValue(inputValue.trim());
+        alert.dismiss();
+      }
+    });
+
   }
   logout() {
     this.currentCustomer = null;
@@ -210,5 +221,24 @@ export class Tab1Page {
       position: pos
     })
     await toast.present();
+  }
+  addPointsClerkCode(code :any){
+    this.clerkCode = code
+    this.addPoints();
+    this.selectedReward = null;
+  }
+  addPointsValue(value: any){
+    this.pointsToAdd = value
+    this.jkaneSvc
+    .redeemPoints(
+      Number(value),
+      this.clerkCode,
+      this.currentCustomer.id
+    )
+    .subscribe((data: any) => {
+      this.presentToast('Points Added Successfully!', 'top', 2500);
+      this.currentCustomer.balance = Number(this.currentCustomer.balance) + Number(this.pointsToAdd)
+    });
+
   }
 }

@@ -29,21 +29,7 @@ export class LoginPage implements OnInit {
       text: 'OK',
       role: 'confirm',
       handler: (data: any) => {
-        this.jkaneSvc.setStoreCode(data[0]);
-        console.log(this.jkaneSvc.getStoreCode());
-        console.log(this.jkaneSvc.getStoreCodeEnterDate())
-        if(this.jkaneSvc.getStoreCode() === '123456'){
-          this.disabledLogin = false;
-        }else{
-          this.toastrCtrl.create({
-            message: 'Invalid Store Code',
-            duration: 4000,
-            position: 'top'
-          }).then((toast) => {
-            toast.present();
-          });
-          this.disabledLogin = true;
-        }
+        this.enableLogin(data[0]);
       },
     },
   ];
@@ -114,11 +100,41 @@ export class LoginPage implements OnInit {
           placeholder: 'Code',
           min: 1,
           max: 100,
+         
         },
+        
       ],
       buttons: this.storeCodeAlertButtons,
     });
 
     await alert.present();
+    var alertInput = document.querySelector('ion-alert input');
+
+    // Add a keyup event listener
+    alertInput!.addEventListener('keyup', (event: any) => {
+      if (event.key === 'Enter') {
+        let inputValue = (event.target as HTMLInputElement).value;
+        this.enableLogin(inputValue.trim());
+        alert.dismiss();
+      }
+    });
   }
+  enableLogin(storecode:any){
+    console.log(storecode)
+    this.jkaneSvc.setStoreCode(storecode);
+        if(this.jkaneSvc.getStoreCode() === '123456'){
+          this.disabledLogin = false;
+        }else{
+          this.toastrCtrl.create({
+            message: 'Invalid Store Code',
+            duration: 4000,
+            position: 'top'
+          }).then((toast) => {
+            toast.present();
+          });
+          this.disabledLogin = true;
+        }
+  }
+
+  
 }
