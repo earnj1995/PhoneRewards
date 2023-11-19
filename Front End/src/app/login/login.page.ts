@@ -57,10 +57,11 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
   ionViewWillEnter() {
+    document.documentElement.requestFullscreen();
     this.phoneNumber = '';
     console.log(this.jkaneSvc.getStoreCodeEnterDate());
     if (this.jkaneSvc.getStoreCode() === undefined || this.is24HoursPassed(this.jkaneSvc.getStoreCodeEnterDate())) {
-      this.promptStoreCode();
+        this.promptStoreCode();
     }
   }
 
