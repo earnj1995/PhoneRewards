@@ -2,6 +2,7 @@
   color="medium"
   class="ion-padding-end ion-padding-start"
   [fullscreen]="true"
+  
 >
   <ion-card color="light">
     <ion-card-header>
@@ -19,6 +20,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
             <ion-input
+              [disabled]="this.disabledLogin"
               max="12"
               color="medium"
               type="tel"
@@ -29,14 +31,14 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button color="medium" expand="block" (click)="login()"
+            <ion-button  [disabled]="this.disabledLogin" color="medium" expand="block" (click)="login()"
               >Get My Rewards</ion-button
             >
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button color="medium" expand="block" (click)="signup()"
+            <ion-button  [disabled]="this.disabledLogin" color="medium" expand="block" (click)="signup()"
               >New Customer</ion-button
             >
           </ion-col>
@@ -53,6 +55,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
             <ion-input
+            [disabled]="this.disabledLogin"
               max="12"
               color="medium"
               type="text"
@@ -64,6 +67,7 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
             <ion-input
+            [disabled]="this.disabledLogin"
               max="12"
               color="medium"
               type="tel"

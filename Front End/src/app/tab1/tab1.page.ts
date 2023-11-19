@@ -48,6 +48,7 @@ export class Tab1Page {
             this.currentCustomer.balance = Number(
               this.currentCustomer.balance - this.selectedReward.value
             );
+            this.selectedReward = null;
           });
       },
     },
@@ -91,7 +92,8 @@ export class Tab1Page {
       role: 'confirm',
       handler: (data: any) => {
         this.clerkCode = data[0]
-        this.addPoints();
+      this.addPoints();
+      this.selectedReward = null;
       },
     },
   ];
@@ -129,10 +131,11 @@ export class Tab1Page {
   }
  
   ionViewWillEnter(){
-    this.currentCustomer = this.userSvc.getCurrentCustomer();
   }
-ionViewDidEnter(){
-  console.log(this.currentCustomer)
+  ionViewDidEnter(){
+    setTimeout(() => {
+      this.logout();
+    }, 90000);
 }
   selectReward(reward: any) {
     this.selectedReward = reward;
@@ -147,23 +150,25 @@ ionViewDidEnter(){
   }
   async clerkAlertRedeem() {
     const alert = await this.alertController.create({
-      header: 'Enter Clerk Code',
+      header: 'Please Show Clerk, Enter Clerk Code',
       inputs: [
         {
           type: 'number',
           placeholder: 'Code',
           min: 1,
           max: 100,
+          cssClass: 'redeem-alert',
         },
       ],
       buttons: this.redeemPointsButtons,
+      cssClass: 'redeem-alert',
     });
 
     await alert.present();
   }
   async clerkAlertAdd() {
     const alert = await this.alertController.create({
-      header: 'Enter Clerk Code',
+      header: 'Please show clerk, Enter Clerk Code',
       inputs: [
         {
           type: 'number',
@@ -189,13 +194,14 @@ ionViewDidEnter(){
         },
       ],
       buttons: this.addPointsButtons,
+
     });
 
     await alert.present();
   }
   logout() {
     this.currentCustomer = null;
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('');
   }
   async presentToast(msg: string, pos: 'top' | 'middle' | 'bottom', dur: number){
     const toast = await this.toastrController.create({

@@ -49,7 +49,7 @@ export class Tab2Page {
   }
   async clerkAlertAdd() {
     const alert = await this.alertController.create({
-      header: 'Enter Clerk Code',
+      header: 'Please Enter Clerk Code',
       inputs: [
         {
           type: 'number',
@@ -59,6 +59,7 @@ export class Tab2Page {
         },
       ],
       buttons: this.addPointsButtonsClerk,
+      cssClass: 'redeem-alert'
     });
 
     await alert.present();

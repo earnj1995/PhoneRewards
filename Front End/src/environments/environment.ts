@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://jkanesvapeapi.com/v1/api/'
+  apiBaseUrl: 'https://jkanesvapeapi.com/v1/api/'
 };
 
 /*

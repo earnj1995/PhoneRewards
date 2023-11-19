@@ -8,8 +8,16 @@ import { environment } from 'src/environments/environment';
 })
 export class JkaneSvcService {
 
+  storeCode!: string
+  storeCodeEnterDate!: Date
   constructor(private http : HttpClient) { }
-
+  
+  setStoreCode (code: string) {
+    this.storeCodeEnterDate = new Date();
+    this.storeCode = code;
+  }
+  getStoreCode = () => this.storeCode;
+  getStoreCodeEnterDate = () => this.storeCodeEnterDate;
   //signup
   signup = (newCustomer: CustomerSignup) =>  this.http.post(`${environment.apiBaseUrl}signup?storepin=123456`, newCustomer);
   
