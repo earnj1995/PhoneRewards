@@ -25,16 +25,16 @@
           <ion-row>
             <ion-col>
               <ion-item class="box"> 
-                <ion-input type="text" [(ngModel)]="this.msg" class="ion-border" placeholder="Promotional Message to Send" />
+                <ion-input type="text" [disabled]="this.disabled" [(ngModel)]="this.msg" (keyup.enter)="this.sendMsg()"  class="ion-border" placeholder="Promotional Message to Send" />
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col size="6">
-              <ion-button color="danger" (click)="this.msg = ''">Clear</ion-button>
+              <ion-button  [disabled]="this.disabled" color="danger" (click)="this.msg = ''">Clear</ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button class="ion-float-end" color="success" (click)="this.sendMsg()">Send<ion-icon name="send"></ion-icon></ion-button>
+              <ion-button  [disabled]="this.disabled" class="ion-float-end" color="success" (click)="this.sendMsg()">Send<ion-icon name="send"></ion-icon></ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

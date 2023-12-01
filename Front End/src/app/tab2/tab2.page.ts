@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 export class Tab2Page {
   msg:string = ''
   clerkCode: any | null = null;
+  disabled:boolean = true
   public alertButtons = [
     {
       text: 'Cancel',
@@ -70,6 +71,8 @@ export class Tab2Page {
   sendMsg() {
     if(this.msg.trim() !== ''){
       this.jkaneSvc.sendText(this.msg, this.clerkCode).subscribe()
+      this.presentToast('Message Sent', 'top', 2500)
+      this.msg = ''
     }else{
       this.presentToast('Message must not be blank', 'top',2500)
     }
@@ -83,14 +86,20 @@ export class Tab2Page {
     await toast.present();
   }
   validateClerkCode(code: any){
-    if(code === '1234'){
-      this.clerkCode = code
-      return true;
-     }else{
-      this.presentToast('Invalid Clerk Code', 'top', 2500)
-      this.router.navigateByUrl('/tabs/tab1')
-      return false;
-     }
+    this.jkaneSvc.validateClerkCode(code).subscribe({
+      next: (data: any) => {
+        if(data.success){
+          this.disabled = false
+          this.clerkCode = code
+        }
+      },
+      error:()=>{
+        this.clerkCode = null
+        this.disabled = true
+        this.presentToast('Invalid Clerk Code', 'top', 2500)
+        this.router.navigateByUrl('/tabs/tab1')
+      }
+    })
   }
 
 }

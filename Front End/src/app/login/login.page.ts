@@ -43,12 +43,12 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
   ionViewWillEnter() {
-    document.documentElement.requestFullscreen();
     this.phoneNumber = '';
     console.log(this.jkaneSvc.getStoreCodeEnterDate());
     if (this.jkaneSvc.getStoreCode() === undefined || this.is24HoursPassed(this.jkaneSvc.getStoreCodeEnterDate())) {
         this.promptStoreCode();
     }
+   
   }
 
   is24HoursPassed(date: Date): boolean {
@@ -119,22 +119,27 @@ export class LoginPage implements OnInit {
       }
     });
   }
-  enableLogin(storecode:any){
-    console.log(storecode)
-    this.jkaneSvc.setStoreCode(storecode);
-        if(this.jkaneSvc.getStoreCode() === '123456'){
-          this.disabledLogin = false;
-        }else{
-          this.toastrCtrl.create({
-            message: 'Invalid Store Code',
-            duration: 4000,
-            position: 'top'
-          }).then((toast) => {
-            toast.present();
-          });
-          this.disabledLogin = true;
-        }
-  }
+  enableLogin(storecode:string){
 
+    this.jkaneSvc.validateStoreCode(storecode.trim()).subscribe({
+      next: (data: any) => {
+        if(data.success){
+          this.jkaneSvc.setStoreCode(storecode);
+          this.disabledLogin = false;
+        }
+      },
+      error:()=>{
+        this.jkaneSvc.setStoreCode('');
+        this.disabledLogin = true;
+        this.toastrCtrl.create({
+          message: 'Invalid Store Code',
+          duration: 4000,
+          position: 'top'
+        }).then((toast) => {
+          toast.present();
+        });
+      }
+  })
+}
   
 }

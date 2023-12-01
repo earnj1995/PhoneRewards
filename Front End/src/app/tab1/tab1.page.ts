@@ -36,20 +36,51 @@ export class Tab1Page {
     {
       text: 'OK',
       role: 'confirm',
-      handler: (data: any) => {
-        this.jkaneSvc
-          .redeemPoints(
-            Number(-this.selectedReward.value),
-            data[0],
-            this.currentCustomer.id
-          )
-          .subscribe((data: any) => {
-            this.presentToast('Points Redemption Successful!', 'top', 2500);
-            this.currentCustomer.balance = Number(
-              this.currentCustomer.balance - this.selectedReward.value
-            );
-            this.selectedReward = null;
-          });
+      handler: (_data: string) => {
+        console.log(_data[0])
+
+          this.jkaneSvc.validateClerkCode(_data[0].trim()).subscribe({
+            next: (data: any) => {
+              if(data.success){
+                this.jkaneSvc
+                .redeemPoints(
+                  Number(-this.selectedReward.value),
+                  _data[0],
+                  this.currentCustomer.id
+                )
+                .subscribe({
+                  next: (data: any) => {
+                    if(data.success){
+                      this.presentToast('Points Redemption Successful!', 'top', 2500);
+                      this.currentCustomer.balance = Number(
+                        this.currentCustomer.balance - this.selectedReward.value
+                      );
+                      this.selectedReward = null;
+                    }
+                  },
+                  error:()=>{
+                    this.toastrController.create({
+                      message: 'Error: Points not redeemed, please try again.',
+                      duration: 4000,
+                      position: 'top'
+                    }).then((toast) => {
+                      toast.present();
+                    });
+                  }
+                });
+              }
+            },
+            error:()=>{
+              this.clerkCode = null;
+              this.toastrController.create({
+                message: 'Invalid Clerk Code,',
+                duration: 4000,
+                position: 'top'
+              }).then((toast) => {
+                toast.present();
+              });
+            }
+            })
       },
     },
   ];
@@ -122,9 +153,10 @@ export class Tab1Page {
   ionViewWillEnter(){
   }
   ionViewDidEnter(){
-    setTimeout(() => {
-      this.logout();
-    }, 90000);
+    // setTimeout(() => {
+    //   this.logout();
+    //   this.alertController.dismiss();
+    // }, 90000);
 }
   selectReward(reward: any) {
     this.selectedReward = reward;
@@ -222,10 +254,25 @@ export class Tab1Page {
     })
     await toast.present();
   }
-  addPointsClerkCode(code :any){
-    this.clerkCode = code
-    this.addPoints();
-    this.selectedReward = null;
+  addPointsClerkCode(code :string){
+    this.jkaneSvc.validateClerkCode(code).subscribe({
+      next: (data: any) => {
+        if(data.success){
+          this.clerkCode = code;
+          this.addPoints();
+        }
+      },
+      error:()=>{
+        this.clerkCode = null;
+        this.toastrController.create({
+          message: 'Invalid Clerk Code',
+          duration: 4000,
+          position: 'top'
+        }).then((toast) => {
+          toast.present();
+        });
+      }
+      })
   }
   addPointsValue(value: any){
     this.pointsToAdd = value
