@@ -39,7 +39,7 @@ foreach($jobs as $job)
     $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     
-    if($responseCode !== 201)
+    if($responseCode !== 200)
     {
         $database->execute('INSERT INTO failedjobs (jobid, userid, message, response) VALUES (?, ?, ?, ?)', array($job['id'], $job['userid'], $job['message'], $responseCode . '\n' . $response));
     }
