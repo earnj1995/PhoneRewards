@@ -16,13 +16,25 @@ $jobs = $database->fetch('SELECT smsjobs.id, userid, phonenumber, message FROM s
 
 foreach($jobs as $job)
 { 
-    //write a curl request with post fields
+//write a curl request to Telnyx to send a message
+
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://api.twilio.com/2010-04-01/Accounts/' . TWILIO_ACCOUNT_SID . '/Messages.json');
+    curl_setopt($ch, CURLOPT_URL, 'https://api.telnyx.com/v2/messages');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Accept: application/json',
+        'Authorization: Bearer ' . TELNYX_API_KEY
+    ));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_USERPWD, TWILIO_ACCOUNT_SID . ':' . TWILIO_AUTH_TOKEN);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, 'To=' . $job['phonenumber'] . '&From=' . TWILIO_PHONE_NUMBER . '&Body=' . urlencode($job['message']));
+    curl_setopt($ch, CURLOPT_POST, 1);        
+    
+    $data = array(
+        'from' => TELNYX_PHONE_NUMBER,
+        'to' => '+1' . $job['phonenumber'],
+        'text' => $job['message']
+    );
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
     $response = curl_exec($ch);
     $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
