@@ -18,6 +18,7 @@ export class LoginPage implements OnInit {
   disabledLogin: boolean = true;
   today: Date = new Date();
   is21: boolean = false;
+  enableTexting: boolean = false;
   public storeCodeAlertButtons = [
     {
       text: 'Cancel',
@@ -190,6 +191,7 @@ export class LoginPage implements OnInit {
         if(data.success){
           this.jkaneSvc.setStoreCode(storecode);
           this.disabledLogin = false;
+          this.enableTexting = true;
         }
       },
       error:()=>{

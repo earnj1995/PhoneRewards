@@ -106,5 +106,5 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-button  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.redirectToSendText()" [disabled]="this.enableLogin" >Send Text</ion-button>
+<ion-button  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.redirectToSendText()" [disabled]="!this.enableTexting" >Send Text</ion-button>
 <ion-button style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.promptStoreCode()" >Enter Store Code</ion-button>
