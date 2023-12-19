@@ -18,6 +18,12 @@ $phone = str_replace('+', '', $phone);
 if(strlen($phone) === 11 && $phone[0] == '1')
     $phone = substr($phone, 1);
 
+if(strlen($phone) !== 10 || !is_numeric($phone))
+    error(400, 'Invalid phone number');
+
+if(strlen($input['name']) < 2)
+    error(400, 'Invalid name');
+
 $existing = $database->fetch('SELECT id FROM users WHERE phonenumber = ?', array($phone));
 if(count($existing) > 0)
     error(409, 'Customer already exists');
