@@ -90,9 +90,9 @@ POST
 
 RESPONSE
 
-{
-    "success": true
-}
+    {
+        "success": true
+    }
 
 OR
 
@@ -114,3 +114,6 @@ RESPONSE
     {
         "success": true
     }
+OR
+
+    400 for bad content
