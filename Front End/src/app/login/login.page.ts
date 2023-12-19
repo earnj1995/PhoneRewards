@@ -21,6 +21,23 @@ export class LoginPage implements OnInit {
     {
       text: 'Cancel',
       role: 'cancel',
+      
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: (data: any) => {
+        this.enableLogin(data[0]);
+      },
+    },
+  ];
+  public storeCodeSendTextButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
       handler: () => {
         console.log('Alert canceled');
       },
@@ -49,6 +66,34 @@ export class LoginPage implements OnInit {
         this.promptStoreCode();
     }
    
+  }
+  async sendTextPrompt(){
+    const alert = await this.alertCtrl.create({
+      header: 'Please Store Code',
+      inputs: [
+        {
+          type: 'number',
+          placeholder: 'Code',
+          min: 1,
+          max: 100,
+         
+        },
+        
+      ],
+      buttons: this.storeCodeAlertButtons,
+    });
+
+    await alert.present();
+    var alertInput = document.querySelector('ion-alert input');
+
+    // Add a keyup event listener
+    alertInput!.addEventListener('keyup', (event: any) => {
+      if (event.key === 'Enter') {
+        let inputValue = (event.target as HTMLInputElement).value;
+        this.enableLogin(inputValue.trim());
+        alert.dismiss();
+      }
+    });
   }
 
   is24HoursPassed(date: Date): boolean {
@@ -141,5 +186,8 @@ export class LoginPage implements OnInit {
       }
   })
 }
-  
+redirectToSendText(){
+
+this.router.navigateByUrl('tabs/tab2');
+}
 }

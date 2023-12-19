@@ -1,0 +1,10 @@
+::ng-deep { .alert-wrapper {    
+    .alert-button:first-child {     
+      color: red; background:rgba(82, 82, 82, 0.151)   
+    }  
+  } 
+  .alert-button:nth-child(2) {     
+    color: #80d75c; background:rgba(82, 82, 82, 0.151)   
+  }  
+  
+  }

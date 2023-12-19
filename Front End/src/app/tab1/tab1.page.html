@@ -1,21 +1,21 @@
 
-<ion-content color="medium" class="ion-padding" [fullscreen]="true">
-  <ion-header color="light" class="ion-no-padding" style="border-radius: 8px;">
-    <ion-toolbar color="light" class="ion-padding-start ion-padding-end" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);" >
+<ion-content style="--background: rgb(0, 0, 0);" class="ion-padding" [fullscreen]="true">
+  <ion-header  class="ion-no-padding" style="border-radius: 8px;--background:  rgba(82, 82, 82, 0.151);" >
+    <ion-toolbar class="ion-padding-start ion-padding-end" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);--background: rgba(82, 82, 82, 0.151)" >
 
       <ion-thumbnail slot="start">
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);"/>
+        
       </ion-thumbnail>
-        <ion-title size="small" class="ion-text-center">J Kane's Vape Shop Rewards</ion-title>
-      <ion-button size="small" class="ion-button" slot="end" color="medium" (click)="logout()">
-        <ion-icon name="log-out-outline ion-no-padding"></ion-icon>
+        <ion-title size="large" class="ion-text-center"><ion-img [src]="'/assets/jkanelogo.png'"></ion-img></ion-title>
+      <ion-button size="small" slot="end" style="--background:rgba(82, 82, 82, 0.151)" >
+        <ion-icon   style="color:#80d75c"  name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-toolbar>
   </ion-header>
 <ion-grid>
   <ion-row>
     <ion-col class="ion-no-padding-top"  size="12">
-      <ion-card class="ion-no-margin ion-margin-top ion-margin-start ion-margin-end" color="light">
+      <ion-card class="ion-no-margin ion-margin-top ion-margin-start ion-margin-end"   style="background-color: rgba(82, 82, 82, 0.151);">
         <ion-card-header>
           <ion-card-title>Welcome, {{this.currentCustomer.name}}</ion-card-title>
         </ion-card-header>
@@ -42,15 +42,15 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <ion-button expand="block" (click)="this.clerkAlertAdd()" class="text-white" color="medium">Complete Purchase</ion-button>
+                <ion-button expand="block" (click)="this.clerkAlertAdd()" class="text-white" style="--background:rgba(82, 82, 82, 0.151); color: #80d75c;" >Complete Purchase</ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
     </ion-col>
-    <ion-col *ngIf="this.selectedReward"  size="12">
-      <ion-card class="ion-padding-bottom ion-margin-top" color="light">
+    <ion-col  *ngIf="this.selectedReward"  size="12">
+      <ion-card class="ion-padding-bottom ion-margin-top" style="background-color: rgba(82, 82, 82, 0.151);">
         <ion-card-header  class="ion-no-margin ">
           <ion-card-title>Redeeming a {{this.selectedReward.text}} Reward</ion-card-title>
         </ion-card-header>
@@ -73,36 +73,38 @@
             </ion-row>
             <ion-row class="ion-padding-top">
               <ion-col size="6">
-               <ion-button size="small" (click)="cancelRewardSelection()" color="danger"><ion-icon name="close"></ion-icon> Cancel</ion-button>
+               <ion-button size="small" (click)="cancelRewardSelection()" style="--background: rgba(82, 82, 82, 0.205); color:#80d75c"><ion-icon name="close"></ion-icon> Cancel</ion-button>
               </ion-col>
               <ion-col size="6" >
-                <ion-button size="small" (click)="redeemRewardSelection()" class="ion-float-end" color="success">Redeem <ion-icon name="diamond-outline"></ion-icon></ion-button>
+                <ion-button size="small" (click)="redeemRewardSelection()" class="ion-float-end" style="--background: rgba(82, 82, 82, 0.205); color:#80d75c">Redeem <ion-icon name="diamond-outline"></ion-icon></ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
     </ion-col>
-    <ion-col size="12" *ngIf="this.currentCustomer.balance  >0">
-      <ion-card class="ion-padding-bottom ion-margin-top" color="light">
+    <!-- *ngIf="this.currentCustomer?.balance  >0" -->
+    <ion-col size="12" *ngIf="this.currentCustomer.balance  >0" >
+      <ion-card class="ion-padding-bottom ion-margin-top"  style="background-color: rgba(82, 82, 82, 0.151);">
         <ion-card-header class="ion-no-padding ion-padding-start ion-padding-top ion-padding-end">
-          <ion-card-title>Available Rewards</ion-card-title>
+          <ion-card-title style="color: #80d75c;">Available Rewards</ion-card-title>
         </ion-card-header>
         <ion-card-content class="ion-no-padding">
         <ion-grid>
           <ion-row >
             <ion-col  *ngFor="let reward of rewards" size="6"   >
-              <ion-button *ngIf="this.reward.value <= this.currentCustomer.balance" expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
+              <!-- *ngIf="this.reward.value <= this.currentCustomer?.balance" -->
+              <ion-button *ngIf="this.reward.value <= this.currentCustomer.balance"  expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
 
                 <ion-card class="ion-no-margin">
                   <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
                   <ion-card-header class="ion-no-padding ion-padding-top ion-padding-left ion-padding-right">
-                    <ion-card-subtitle>{{reward.text}}</ion-card-subtitle>
+                    <ion-card-subtitle style="color:#80d75c">{{reward.text}}</ion-card-subtitle>
                   </ion-card-header>
                   <ion-card-content class="ion-no-padding ion-padding-top ion-padding-bottom">
 
-
-                          <ion-text class="ion-bold">
+ 
+                          <ion-text class="ion-bold" style="color:#80d75c">
                             {{reward.value}} points
                             </ion-text>
                   </ion-card-content>

@@ -1,20 +1,21 @@
 <ion-content
-  color="medium"
+ style="--background: rgb(0, 0, 0);"
   class="ion-padding-end ion-padding-start"
   [fullscreen]="true"
   
 >
-  <ion-card color="light">
+  <ion-card style="background-color: rgba(82, 82, 82, 0.151)">
     <ion-card-header>
-      <ion-card-title class="ion-text-center"
-        >Welcome to J Kane's Vape Shop Rewards</ion-card-title
+      <ion-card-title class="ion-text-center" style="--background:black"><ion-img [src]="'/assets/jkanelogo.png'"></ion-img></ion-card-title
       >
     </ion-card-header>
   </ion-card>
-  <ion-card *ngIf="!this.signingUp" color="light">
+  <ion-card *ngIf="!this.signingUp" style="background-color: rgba(82, 82, 82, 0.151)">
     <ion-card-content class="ion-margin-top">
-      <ion-card-subtitle class="ion-text-center ion-margin-bottom"
-        >Please Enter Your Phone Number</ion-card-subtitle
+      <ion-card-subtitle class="ion-text-center ion-margin-bottom fs-"
+        ><h1 style="color:#80d75c">
+          Please Enter Your Phone Number
+        </h1></ion-card-subtitle
       >
       <ion-grid class="ion-margin">
         <ion-row class="ion-justify-content-center">
@@ -32,14 +33,14 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button  [disabled]="this.disabledLogin" color="medium" expand="block" (click)="login()"
+            <ion-button  [disabled]="this.disabledLogin" style="--background: rgba(82, 82, 82, 0.418); color: #80d75c;"  expand="block" (click)="login()"
               >Get My Rewards</ion-button
             >
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button  [disabled]="this.disabledLogin" color="medium" expand="block" (click)="signup()"
+            <ion-button  [disabled]="this.disabledLogin" style="--background: rgba(82, 82, 82, 0.418); color: #80d75c;" expand="block" (click)="signup()"
               >New Customer</ion-button
             >
           </ion-col>
@@ -78,6 +79,17 @@
             ></ion-input>
           </ion-col>
         </ion-row>
+       <!-- create a 'Am I 21+ Check box' -->
+        <ion-row class="ion-justify-content-center ion-text-center">
+          <ion-col size="3">
+            Am I 21+?
+          </ion-col>
+            <ion-col size="3">
+              <ion-checkbox
+             
+              ></ion-checkbox>
+            </ion-col>
+          </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
             <ion-button color="medium" expand="block" (click)="completeSignup()"
@@ -89,4 +101,5 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-button color="light" (click)="this.promptStoreCode()" >Enter Store Code</ion-button>
+<ion-button  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.redirectToSendText()" >Send Text</ion-button>
+<ion-button style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.promptStoreCode()" >Enter Store Code</ion-button>

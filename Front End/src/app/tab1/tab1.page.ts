@@ -148,15 +148,20 @@ export class Tab1Page {
     private toastrController: ToastController
   ) {
     this.currentCustomer = this.userSvc.getCurrentCustomer();
+    if(this.currentCustomer === null){
+      this.router.navigateByUrl('');
+    }
   }
  
   ionViewWillEnter(){
+   
   }
   ionViewDidEnter(){
-    // setTimeout(() => {
-    //   this.logout();
-    //   this.alertController.dismiss();
-    // }, 90000);
+    setTimeout(() => {
+      console.log(this.currentCustomer)
+      this.logout();
+      this.alertController.dismiss();
+    }, 90000);
 }
   selectReward(reward: any) {
     this.selectedReward = reward;

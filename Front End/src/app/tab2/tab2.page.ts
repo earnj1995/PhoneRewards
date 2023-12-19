@@ -4,6 +4,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { JkaneSvcService } from '../services/jkane-svc.service';
 import { UserService } from '../user.service';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-tab2',
@@ -70,9 +71,22 @@ export class Tab2Page {
   }
   sendMsg() {
     if(this.msg.trim() !== ''){
-      this.jkaneSvc.sendText(this.msg, this.clerkCode).subscribe()
-      this.presentToast('Message Sent', 'top', 2500)
-      this.msg = ''
+      this.jkaneSvc.sendText(this.msg, this.clerkCode).subscribe({
+        next: (data: any) => {
+          if(data.success){
+            this.presentToast('Message Sent', 'top', 2500)
+            this.msg = ''
+          }
+        },
+        error:(error: HttpErrorResponse)=>{
+          if(error.status === 400){
+
+            this.presentToast('Message Failed - Forbidden word in message!', 'top', 2500)
+          }else{
+            this.presentToast('Message Failed - Try again', 'top', 2500)
+          }
+        }
+      })
     }else{
       this.presentToast('Message must not be blank', 'top',2500)
     }

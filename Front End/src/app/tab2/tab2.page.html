@@ -1,14 +1,14 @@
 
-<ion-content color="medium" class="ion-padding" [fullscreen]="true">
-  <ion-header color="light" class="ion-no-padding" style="border-radius: 8px;">
-    <ion-toolbar color="light" class="ion-padding-start ion-padding-end" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);" >
+<ion-content style="--background: rgb(0, 0, 0);" class="ion-padding" [fullscreen]="true">
+  <ion-header  class="ion-no-padding" style="border-radius: 8px;--background:  rgba(82, 82, 82, 0.151);" >
+    <ion-toolbar class="ion-padding-start ion-padding-end" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);--background: rgba(82, 82, 82, 0.151)" >
 
       <ion-thumbnail slot="start">
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);"/>
+        
       </ion-thumbnail>
-        <ion-title size="large" class="ion-text-center">J Kane's Vape Shop Rewards</ion-title>
-      <ion-button size="small" slot="end" color="medium" >
-        <ion-icon name="log-out-outline"></ion-icon>
+        <ion-title size="large" class="ion-text-center"><ion-img [src]="'/assets/jkanelogo.png'"></ion-img></ion-title>
+      <ion-button size="small" slot="end" style="--background:rgba(82, 82, 82, 0.205)" >
+        <ion-icon   style="color:#80d75c"  name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-toolbar>
   </ion-header>
@@ -16,9 +16,9 @@
   <ion-row>
 
     <ion-col size="12">
-      <ion-card class="ion-padding-bottom ion-margin-top" color="light">
+      <ion-card class="ion-padding-bottom ion-margin-top" style="--background: rgba(82, 82, 82, 0.151)">
         <ion-card-header class="ion-no-padding ion-padding-start ion-padding-top ion-padding-end">
-          <ion-card-title>Send Promotional Text</ion-card-title>
+          <ion-card-title style="color:#80d75c">Send Promotional Text</ion-card-title>
         </ion-card-header>
         <ion-card-content class="ion-no-padding">
         <ion-grid>
@@ -31,10 +31,10 @@
           </ion-row>
           <ion-row>
             <ion-col size="6">
-              <ion-button  [disabled]="this.disabled" color="danger" (click)="this.msg = ''">Clear</ion-button>
+              <ion-button  [disabled]="this.disabled" style="--background: rgba(82, 82, 82, 0.205); color:red" (click)="this.msg = ''"><ion-icon name="close-outline"></ion-icon> &nbsp;Clear</ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button  [disabled]="this.disabled" class="ion-float-end" color="success" (click)="this.sendMsg()">Send<ion-icon name="send"></ion-icon></ion-button>
+              <ion-button  [disabled]="this.disabled" class="ion-float-end" style="--background: rgba(82, 82, 82, 0.205); color:#80d75c" (click)="this.sendMsg()">Send&nbsp;<ion-icon name="send-outline"></ion-icon></ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
