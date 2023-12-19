@@ -17,7 +17,7 @@
     <ion-col class="ion-no-padding-top"  size="12">
       <ion-card class="ion-no-margin ion-margin-top ion-margin-start ion-margin-end"   style="background-color: rgba(82, 82, 82, 0.151);">
         <ion-card-header>
-          <ion-card-title>Welcome, {{this.currentCustomer.name}}</ion-card-title>
+          <ion-card-title>Welcome, {{this.currentCustomer?.name}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <ion-grid>
@@ -29,7 +29,7 @@
               </ion-col>
               <ion-col size="12">
                 <ion-text class="ion-bold">
-                Total Points: {{this.currentCustomer.balance}} Points
+                Total Points: {{this.currentCustomer?.balance}} Points
                 </ion-text>
               </ion-col>
             </ion-row>
@@ -65,10 +65,10 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-               Existing Points: {{this.currentCustomer.balance}}
+               Existing Points: {{this.currentCustomer?.balance}}
               </ion-col>
               <ion-col size="12">
-                Points After Redemption: {{this.currentCustomer.balance - this.selectedReward.value}}
+                Points After Redemption: {{this.currentCustomer?.balance - this.selectedReward.value}}
               </ion-col>
             </ion-row>
             <ion-row class="ion-padding-top">
@@ -84,7 +84,7 @@
       </ion-card>
     </ion-col>
     <!-- *ngIf="this.currentCustomer?.balance  >0" -->
-    <ion-col size="12" *ngIf="this.currentCustomer.balance  >0" >
+    <ion-col size="12" *ngIf="this.currentCustomer?.balance  >0" >
       <ion-card class="ion-padding-bottom ion-margin-top"  style="background-color: rgba(82, 82, 82, 0.151);">
         <ion-card-header class="ion-no-padding ion-padding-start ion-padding-top ion-padding-end">
           <ion-card-title style="color: #80d75c;">Available Rewards</ion-card-title>
@@ -94,7 +94,7 @@
           <ion-row >
             <ion-col  *ngFor="let reward of rewards" size="6"   >
               <!-- *ngIf="this.reward.value <= this.currentCustomer?.balance" -->
-              <ion-button *ngIf="this.reward.value <= this.currentCustomer.balance"  expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
+              <ion-button *ngIf="this.reward.value <= this.currentCustomer?.balance"  expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
 
                 <ion-card class="ion-no-margin">
                   <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />

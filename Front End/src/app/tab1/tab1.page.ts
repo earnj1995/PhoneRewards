@@ -19,7 +19,7 @@ export class Tab1Page {
 
   selectedReward: any | null = null;
 
-  currentCustomer: any | null = null;
+  currentCustomer?: any | null  = null;
 
   clerkCode: any | null = null;
   pointsToAdd: any
@@ -147,16 +147,17 @@ export class Tab1Page {
     private jkaneSvc: JkaneSvcService,
     private toastrController: ToastController
   ) {
-    this.currentCustomer = this.userSvc.getCurrentCustomer();
-    if(this.currentCustomer === null){
-      this.router.navigateByUrl('');
-    }
+  
   }
  
   ionViewWillEnter(){
    
   }
   ionViewDidEnter(){
+    this.currentCustomer = this.userSvc.getCurrentCustomer();
+    if(this.currentCustomer === null || this.currentCustomer === undefined){
+      this.router.navigateByUrl('');
+    }
     setTimeout(() => {
       console.log(this.currentCustomer)
       this.logout();
