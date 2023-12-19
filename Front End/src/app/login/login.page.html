@@ -48,10 +48,10 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="this.signingUp" color="light">
+  <ion-card *ngIf="this.signingUp" style="background-color: rgba(82, 82, 82, 0.151)">
     <ion-card-content class="ion-margin-top">
       <ion-card-subtitle class="ion-text-center ion-margin-bottom"
-        >Please Enter Your Phone Number</ion-card-subtitle
+        ><h1 style="color:#80d75c">Please Enter Your Phone Number</h1></ion-card-subtitle
       >
       <ion-grid class="ion-margin">
         <ion-row class="ion-justify-content-center">
@@ -82,7 +82,7 @@
        <!-- create a 'Am I 21+ Check box' -->
         <ion-row class="ion-justify-content-center ion-text-center">
           <ion-col size="3">
-            Am I 21+?
+            I am 21.
           </ion-col>
             <ion-col size="3">
               <ion-checkbox
@@ -92,7 +92,7 @@
           </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button color="medium" expand="block" [disabled]="!this.is21" (click)="completeSignup()"
+            <ion-button style="--background: rgba(82, 82, 82, 0.418);color: #80d75c" expand="block" [disabled]="!this.is21" (click)="completeSignup()"
               >Earn Rewards</ion-button
             >
           </ion-col>
