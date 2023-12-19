@@ -90,9 +90,9 @@ POST
 
 RESPONSE
 
-{
-    "success": true
-}
+    {
+        "success": true
+    }
 
 OR
 
