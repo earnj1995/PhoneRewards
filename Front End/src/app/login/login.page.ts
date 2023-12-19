@@ -17,6 +17,7 @@ export class LoginPage implements OnInit {
   newCustomer: CustomerSignup = new CustomerSignup();
   disabledLogin: boolean = true;
   today: Date = new Date();
+  is21: boolean = false;
   public storeCodeAlertButtons = [
     {
       text: 'Cancel',
@@ -122,6 +123,7 @@ export class LoginPage implements OnInit {
         this.signingUp = true;
       }
     }
+    
     });
   }
   signup() {
@@ -132,6 +134,7 @@ export class LoginPage implements OnInit {
     this.jkaneSvc.signup(this.newCustomer).subscribe((data: any) => {
       console.log(data);
       if(data.success){
+        this.phoneNumber = this.newCustomer.phone;
         this.login();
       }
     });

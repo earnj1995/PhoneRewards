@@ -115,5 +115,10 @@ export class Tab2Page {
       }
     })
   }
+  logout(){
+    this.msg = ''
+    this.clerkCode = null
+    this.router.navigateByUrl('/login')
+  }
 
 }

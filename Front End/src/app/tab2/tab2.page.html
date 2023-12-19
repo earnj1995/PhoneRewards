@@ -7,7 +7,7 @@
         
       </ion-thumbnail>
         <ion-title size="large" class="ion-text-center"><ion-img [src]="'/assets/jkanelogo.png'"></ion-img></ion-title>
-      <ion-button size="small" slot="end" style="--background:rgba(82, 82, 82, 0.205)" >
+      <ion-button (click)="this.logout()" size="small" slot="end" style="--background:rgba(82, 82, 82, 0.205)" >
         <ion-icon   style="color:#80d75c"  name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-toolbar>
