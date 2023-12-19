@@ -131,13 +131,24 @@ export class LoginPage implements OnInit {
   }
   completeSignup() {
     console.log(this.newCustomer);
-    this.jkaneSvc.signup(this.newCustomer).subscribe((data: any) => {
-      console.log(data);
-      if(data.success){
-        this.phoneNumber = this.newCustomer.phone;
-        this.login();
-      }
-    });
+    if(this.is21){
+
+      this.jkaneSvc.signup(this.newCustomer).subscribe((data: any) => {
+        console.log(data);
+        if(data.success){
+          this.phoneNumber = this.newCustomer.phone;
+          this.login();
+        }
+      });
+    }else{
+      this.toastrCtrl.create({
+        message: 'Must be 21 or older',
+        duration: 4000,
+        position: 'top'
+      }).then((toast) => {
+        toast.present();
+      });
+    }
   }
   async promptStoreCode() {
     const alert = await this.alertCtrl.create({
@@ -166,6 +177,11 @@ export class LoginPage implements OnInit {
         alert.dismiss();
       }
     });
+  }
+  cancelSignup() {
+    this.signingUp = false;
+    this.phoneNumber = '';
+    
   }
   enableLogin(storecode:string){
 

@@ -82,7 +82,7 @@
        <!-- create a 'Am I 21+ Check box' -->
         <ion-row class="ion-justify-content-center ion-text-center">
           <ion-col size="3">
-            I am 21.
+            I am 21+.
           </ion-col>
             <ion-col size="3">
               <ion-checkbox
@@ -91,9 +91,14 @@
             </ion-col>
           </ion-row>
         <ion-row class="ion-justify-content-center">
-          <ion-col size="6">
+          <ion-col size="12">
             <ion-button style="--background: rgba(82, 82, 82, 0.418);color: #80d75c" expand="block" [disabled]="!this.is21" (click)="completeSignup()"
               >Earn Rewards</ion-button
+            >
+          </ion-col>
+          <ion-col size="12">
+            <ion-button style="--background: rgba(82, 82, 82, 0.418);color: #d75c5c" expand="block"  (click)="cancelSignup()"
+              >Cancel</ion-button
             >
           </ion-col>
         </ion-row>
@@ -101,5 +106,5 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-button  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.redirectToSendText()" >Send Text</ion-button>
+<ion-button  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.redirectToSendText()" [disabled]="this.enableLogin" >Send Text</ion-button>
 <ion-button style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.promptStoreCode()" >Enter Store Code</ion-button>
