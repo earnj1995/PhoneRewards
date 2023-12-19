@@ -114,3 +114,6 @@ RESPONSE
     {
         "success": true
     }
+OR
+
+    400 for bad content
