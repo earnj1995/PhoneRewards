@@ -170,10 +170,7 @@ export class Tab1Page {
     ) {
       this.router.navigateByUrl('/login');
     }
-    console.log('did enter');
-    console.log(this.userSvc.currentCustomer);
     setTimeout(() => {
-      console.log(this.userSvc.currentCustomer);
       this.logout();
       this.alertController.dismiss();
     }, 90000);
@@ -261,7 +258,6 @@ export class Tab1Page {
     });
   }
   logout() {
-    console.log('whats up');
     this.userSvc.setCurrentCustomer(null);
     this.router.navigateByUrl('/login');
   }
