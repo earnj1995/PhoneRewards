@@ -16,14 +16,16 @@ export class Tab1Page {
     { text: '20% Off', value: 200 },
     { text: '25% Off', value: 250 },
   ];
+  minValue = this.rewards.reduce((min, reward) => {
+    return reward.value < min ? reward.value : min;
+  }, this.rewards[0].value);
 
   selectedReward: any | null = null;
 
-  currentCustomer?: any | null  = null;
+  currentCustomer?: any | null = null;
 
   clerkCode: any | null = null;
-  pointsToAdd: any
-  
+  pointsToAdd: any;
 
   public redeemPointsButtons = [
     {
@@ -37,50 +39,63 @@ export class Tab1Page {
       text: 'OK',
       role: 'confirm',
       handler: (_data: string) => {
-        console.log(_data[0])
+        console.log(_data[0]);
 
-          this.jkaneSvc.validateClerkCode(_data[0].trim()).subscribe({
-            next: (data: any) => {
-              if(data.success){
-                this.jkaneSvc
+        this.jkaneSvc.validateClerkCode(_data[0].trim()).subscribe({
+          next: (data: any) => {
+            if (data.success) {
+              this.jkaneSvc
                 .redeemPoints(
                   Number(-this.selectedReward.value),
                   _data[0],
-                  this.currentCustomer.id
+                  this.userSvc.currentCustomer.id
                 )
                 .subscribe({
                   next: (data: any) => {
-                    if(data.success){
-                      this.presentToast('Points Redemption Successful!', 'top', 2500);
-                      this.currentCustomer.balance = Number(
-                        this.currentCustomer.balance - this.selectedReward.value
+                    if (data.success) {
+                      this.presentToast(
+                        'Points Redemption Successful!',
+                        'top',
+                        2500
+                      );
+
+                      this.userSvc.setCustomerBalance(
+                        Number(
+                          this.userSvc.currentCustomer.balance -
+                            this.selectedReward.value
+                        )
                       );
                       this.selectedReward = null;
                     }
                   },
-                  error:()=>{
-                    this.toastrController.create({
-                      message: 'Error: Points not redeemed, please try again.',
-                      duration: 4000,
-                      position: 'top'
-                    }).then((toast) => {
-                      toast.present();
-                    });
-                  }
+                  error: () => {
+                    this.toastrController
+                      .create({
+                        message:
+                          'Error: Points not redeemed, please try again.',
+                        duration: 4000,
+                        position: 'top',
+                      })
+                      .then((toast) => {
+                        toast.present();
+                      });
+                  },
                 });
-              }
-            },
-            error:()=>{
-              this.clerkCode = null;
-              this.toastrController.create({
+            }
+          },
+          error: () => {
+            this.clerkCode = null;
+            this.toastrController
+              .create({
                 message: 'Invalid Clerk Code,',
                 duration: 4000,
-                position: 'top'
-              }).then((toast) => {
+                position: 'top',
+              })
+              .then((toast) => {
                 toast.present();
               });
-            }
-            })
+          },
+        });
       },
     },
   ];
@@ -97,7 +112,6 @@ export class Tab1Page {
       role: 'confirm',
       handler: (data: any) => {
         this.addPointsValue(data[0]);
-       
       },
     },
   ];
@@ -146,24 +160,24 @@ export class Tab1Page {
     public userSvc: UserService,
     private jkaneSvc: JkaneSvcService,
     private toastrController: ToastController
-  ) {
-  
-  }
- 
-  ionViewWillEnter(){
-   
-  }
-  ionViewDidEnter(){
-    this.currentCustomer = this.userSvc.getCurrentCustomer();
-    if(this.currentCustomer === null || this.currentCustomer === undefined){
-      this.router.navigateByUrl('');
+  ) {}
+
+  ionViewWillEnter() {}
+  ionViewDidEnter() {
+    if (
+      this.userSvc.currentCustomer === null ||
+      this.userSvc.currentCustomer === undefined
+    ) {
+      this.router.navigateByUrl('/login');
     }
+    console.log('did enter');
+    console.log(this.userSvc.currentCustomer);
     setTimeout(() => {
-      console.log(this.currentCustomer)
+      console.log(this.userSvc.currentCustomer);
       this.logout();
       this.alertController.dismiss();
     }, 90000);
-}
+  }
   selectReward(reward: any) {
     this.selectedReward = reward;
   }
@@ -171,7 +185,7 @@ export class Tab1Page {
     this.selectedReward = null;
   }
   redeemRewardSelection() {
-    if (this.currentCustomer.balance - this.selectedReward.value >= 0) {
+    if (this.userSvc.currentCustomer.balance - this.selectedReward.value >= 0) {
       this.clerkAlertRedeem();
     }
   }
@@ -220,7 +234,7 @@ export class Tab1Page {
       }
     });
   }
-  async addPoints(){
+  async addPoints() {
     const alert = await this.alertController.create({
       header: 'Add points',
       inputs: [
@@ -232,7 +246,6 @@ export class Tab1Page {
         },
       ],
       buttons: this.addPointsButtons,
-
     });
 
     await alert.present();
@@ -246,52 +259,60 @@ export class Tab1Page {
         alert.dismiss();
       }
     });
-
   }
   logout() {
-    this.currentCustomer = null;
+    console.log('whats up');
+    this.userSvc.setCurrentCustomer(null);
     this.router.navigateByUrl('');
   }
-  async presentToast(msg: string, pos: 'top' | 'middle' | 'bottom', dur: number){
+  async presentToast(
+    msg: string,
+    pos: 'top' | 'middle' | 'bottom',
+    dur: number
+  ) {
     const toast = await this.toastrController.create({
       message: msg,
       duration: dur,
-      position: pos
-    })
+      position: pos,
+    });
     await toast.present();
   }
-  addPointsClerkCode(code :string){
+  addPointsClerkCode(code: string) {
     this.jkaneSvc.validateClerkCode(code).subscribe({
       next: (data: any) => {
-        if(data.success){
+        if (data.success) {
           this.clerkCode = code;
           this.addPoints();
         }
       },
-      error:()=>{
+      error: () => {
         this.clerkCode = null;
-        this.toastrController.create({
-          message: 'Invalid Clerk Code',
-          duration: 4000,
-          position: 'top'
-        }).then((toast) => {
-          toast.present();
-        });
-      }
-      })
-  }
-  addPointsValue(value: any){
-    this.pointsToAdd = value
-    this.jkaneSvc
-    .redeemPoints(
-      Number(value),
-      this.clerkCode,
-      this.currentCustomer.id
-    )
-    .subscribe((data: any) => {
-      this.presentToast('Points Added Successfully!', 'top', 2500);
-      this.currentCustomer.balance = Number(this.currentCustomer.balance) + Number(this.pointsToAdd)
+        this.toastrController
+          .create({
+            message: 'Invalid Clerk Code',
+            duration: 4000,
+            position: 'top',
+          })
+          .then((toast) => {
+            toast.present();
+          });
+      },
     });
-
+  }
+  addPointsValue(value: any) {
+    this.pointsToAdd = value;
+    this.jkaneSvc
+      .redeemPoints(
+        Number(value),
+        this.clerkCode,
+        this.userSvc.currentCustomer.id
+      )
+      .subscribe((data: any) => {
+        this.presentToast('Points Added Successfully!', 'top', 2500);
+        this.userSvc.setCustomerBalance(
+          Number(this.userSvc.currentCustomer.balance) +
+            Number(this.pointsToAdd)
+        );
+      });
   }
 }

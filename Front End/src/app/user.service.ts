@@ -13,4 +13,7 @@ export class UserService {
   getCurrentCustomer() {
     return this.currentCustomer;
   }
+  setCustomerBalance(balance: number) {
+    this.currentCustomer.balance = balance;
+  }
 }

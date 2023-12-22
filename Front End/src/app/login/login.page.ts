@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
     },
   ];
   constructor(
-    private userSvc: UserService,
+    public userSvc: UserService,
     private router: Router,
     private jkaneSvc: JkaneSvcService,
     private toastrCtrl: ToastController,

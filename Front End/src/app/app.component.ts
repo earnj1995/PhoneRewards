@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   constructor() {}
+  ngOnInit() {
+    // this.statusBar.styleDefault();
+    // this.splashScreen.hide();
+  }
 }
