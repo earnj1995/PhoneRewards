@@ -1,123 +1,192 @@
-
-<ion-content style="--background: rgb(0, 0, 0);" class="ion-padding" [fullscreen]="true">
-  <ion-header  class="ion-no-padding" style="border-radius: 8px;--background:  rgba(82, 82, 82, 0.151);" >
-    <ion-toolbar class="ion-padding-start ion-padding-end" style="border-radius: 8px;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);--background: rgba(82, 82, 82, 0.151)" >
-
-      <ion-thumbnail slot="start">
-        
-      </ion-thumbnail>
-        <ion-title size="large" class="ion-text-center"><ion-img [src]="'/assets/jkanelogo.png'"></ion-img></ion-title>
-      <ion-button size="small" (click)="logout()" slot="end" style="--background:rgba(82, 82, 82, 0.151)" >
-        <ion-icon   style="color:#80d75c"   name="log-out-outline"></ion-icon>
+<ion-content
+  style="--background: rgb(0, 0, 0)"
+  class="ion-padding"
+  [fullscreen]="true"
+>
+  <ion-header
+    class="ion-no-padding"
+    style="border-radius: 8px; --background: rgba(82, 82, 82, 0.151)"
+  >
+    <ion-toolbar
+      class="ion-padding-start ion-padding-end"
+      style="
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);
+        --background: rgba(82, 82, 82, 0.151);
+      "
+    >
+      <ion-thumbnail slot="start"> </ion-thumbnail>
+      <ion-title size="large" class="ion-text-center"
+        ><ion-img [src]="'/assets/jkanelogo.png'"></ion-img
+      ></ion-title>
+      <ion-button
+        size="small"
+        (click)="logout()"
+        slot="end"
+        style="--background: rgba(82, 82, 82, 0.151)"
+      >
+        <ion-icon style="color: #80d75c" name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-toolbar>
   </ion-header>
-<ion-grid>
-  <ion-row>
-    <ion-col class="ion-no-padding-top"  size="12">
-      <ion-card class="ion-no-margin ion-margin-top ion-margin-start ion-margin-end"   style="background-color: rgba(82, 82, 82, 0.151);">
-        <ion-card-header>
-          <ion-card-title>Welcome, {{this.currentCustomer?.name}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col size="12">
-                <ion-text class="ion-bolder">
-                Pick a reward to redeem!
-                </ion-text>
-              </ion-col>
-              <ion-col size="12">
-                <ion-text class="ion-bold">
-                Total Points: {{this.currentCustomer?.balance}} Points
-                </ion-text>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col size="12">
-                <ion-text>
-                  Every 1 dollar = 5 points
-                </ion-text>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col size="12">
-                <ion-button expand="block" (click)="this.clerkAlertAdd()" class="text-white" style="--background:rgba(82, 82, 82, 0.151); color: #80d75c;" >Complete Purchase</ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-    <ion-col  *ngIf="this.selectedReward"  size="12">
-      <ion-card class="ion-padding-bottom ion-margin-top" style="background-color: rgba(82, 82, 82, 0.151);">
-        <ion-card-header  class="ion-no-margin ">
-          <ion-card-title>Redeeming a {{this.selectedReward.text}} Reward</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid class="ion-no-padding">
-            <ion-row>
-              <ion-col size="12">
-                <ion-text class="ion-bold ion-margin-bottom">
-                 Please show this to the cashier to redeem.
-                </ion-text>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col size="12">
-               Existing Points: {{this.currentCustomer?.balance}}
-              </ion-col>
-              <ion-col size="12">
-                Points After Redemption: {{this.currentCustomer?.balance - this.selectedReward.value}}
-              </ion-col>
-            </ion-row>
-            <ion-row class="ion-padding-top">
-              <ion-col size="6">
-               <ion-button size="small" (click)="cancelRewardSelection()" style="--background: rgba(82, 82, 82, 0.205); color:#80d75c"><ion-icon name="close"></ion-icon> Cancel</ion-button>
-              </ion-col>
-              <ion-col size="6" >
-                <ion-button size="small" (click)="redeemRewardSelection()" class="ion-float-end" style="--background: rgba(82, 82, 82, 0.205); color:#80d75c">Redeem <ion-icon name="diamond-outline"></ion-icon></ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-    <!-- *ngIf="this.currentCustomer?.balance  >0" -->
-    <ion-col size="12" *ngIf="this.currentCustomer?.balance  >0" >
-      <ion-card class="ion-padding-bottom ion-margin-top"  style="background-color: rgba(82, 82, 82, 0.151);">
-        <ion-card-header class="ion-no-padding ion-padding-start ion-padding-top ion-padding-end">
-          <ion-card-title style="color: #80d75c;">Available Rewards</ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="ion-no-padding">
-        <ion-grid>
-          <ion-row >
-            <ion-col  *ngFor="let reward of rewards" size="6"   >
-              <!-- *ngIf="this.reward.value <= this.currentCustomer?.balance" -->
-              <ion-button *ngIf="this.reward.value <= this.currentCustomer?.balance"  expand="block" (click)="selectReward(reward)" class="ion-no-padding ion-no-margin">
-
-                <ion-card class="ion-no-margin">
-                  <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-                  <ion-card-header class="ion-no-padding ion-padding-top ion-padding-left ion-padding-right">
-                    <ion-card-subtitle style="color:#80d75c">{{reward.text}}</ion-card-subtitle>
-                  </ion-card-header>
-                  <ion-card-content class="ion-no-padding ion-padding-top ion-padding-bottom">
-
- 
-                          <ion-text class="ion-bold" style="color:#80d75c">
-                            {{reward.value}} points
-                            </ion-text>
-                  </ion-card-content>
-                </ion-card>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-
-      </ion-row>
-</ion-grid>
-
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-no-padding-top" size="12">
+        <ion-card
+          class="ion-no-margin ion-margin-top ion-margin-start ion-margin-end"
+          style="background-color: rgba(82, 82, 82, 0.151)"
+        >
+          <ion-card-header>
+            <ion-card-title style="color: #ffffff"
+              >Welcome, {{this.userSvc.currentCustomer?.name}}</ion-card-title
+            >
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-text class="ion-bolder">
+                    Pick a reward to redeem!
+                  </ion-text>
+                  <br />
+                  <ion-text> Every 1 dollar = 5 points </ion-text>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-text class="ion-bold" style="color: #ffffff">
+                    Total Points:
+                    <br />
+                    <ion-text style="font-size: 24px">
+                      {{this.userSvc.currentCustomer?.balance}}
+                    </ion-text>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-button
+                    expand="block"
+                    (click)="this.clerkAlertAdd()"
+                    class="text-white"
+                    style="
+                      --background: rgba(82, 82, 82, 0.151);
+                      color: #80d75c;
+                    "
+                    >Complete Purchase</ion-button
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col *ngIf="this.selectedReward" size="12">
+        <ion-card
+          class="ion-padding-bottom ion-margin-top"
+          style="background-color: rgba(82, 82, 82, 0.151)"
+        >
+          <ion-card-header class="ion-no-margin">
+            <ion-card-title style="color: #ffffff"
+              >Redeeming a {{this.selectedReward.text}} Reward</ion-card-title
+            >
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-text class="ion-bold ion-margin-bottom">
+                    Please show this to the cashier to redeem.
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12">
+                  Existing Points: {{this.userSvc.currentCustomer?.balance}}
+                </ion-col>
+                <ion-col size="12">
+                  Points After Redemption: {{this.userSvc.currentCustomer?.balance -
+                  this.selectedReward.value}}
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-padding-top">
+                <ion-col size="6">
+                  <ion-button
+                    size="small"
+                    (click)="cancelRewardSelection()"
+                    style="
+                      --background: rgba(82, 82, 82, 0.205);
+                      color: #80d75c;
+                    "
+                    ><ion-icon name="close"></ion-icon> Cancel</ion-button
+                  >
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button
+                    size="small"
+                    (click)="redeemRewardSelection()"
+                    class="ion-float-end"
+                    style="
+                      --background: rgba(82, 82, 82, 0.205);
+                      color: #80d75c;
+                    "
+                    >Redeem <ion-icon name="diamond-outline"></ion-icon
+                  ></ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- *ngIf="this.currentCustomer?.balance  >0" -->
+      <ion-col size="12" *ngIf="this.userSvc.currentCustomer?.balance  >= minValue">
+        <ion-card
+          class="ion-padding-bottom ion-margin-top"
+          style="background-color: rgba(82, 82, 82, 0.151)"
+        >
+          <ion-card-header
+            class="ion-no-padding ion-padding-start ion-padding-top ion-padding-end"
+          >
+            <ion-card-title style="color: #80d75c"
+              >Available Rewards</ion-card-title
+            >
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-grid>
+              <ion-row>
+                <ion-col *ngFor="let reward of rewards" size="6">
+                  <!-- *ngIf="this.reward.value <= this.currentCustomer?.balance" -->
+                  <ion-button
+                    *ngIf="this.reward.value <= this.userSvc.currentCustomer?.balance"
+                    expand="block"
+                    (click)="selectReward(reward)"
+                    class="ion-no-padding ion-no-margin"
+                  >
+                    <ion-card class="ion-no-margin">
+                      <img
+                        alt="Silhouette of mountains"
+                        src="https://ionicframework.com/docs/img/demos/card-media.png"
+                      />
+                      <ion-card-header
+                        class="ion-no-padding ion-padding-top ion-padding-left ion-padding-right"
+                      >
+                        <ion-card-subtitle style="color: #80d75c"
+                          >{{reward.text}}</ion-card-subtitle
+                        >
+                      </ion-card-header>
+                      <ion-card-content
+                        class="ion-no-padding ion-padding-top ion-padding-bottom"
+                      >
+                        <ion-text class="ion-bold" style="color: #80d75c">
+                          {{reward.value}} points
+                        </ion-text>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
