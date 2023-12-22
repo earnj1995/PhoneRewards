@@ -1,19 +1,22 @@
 <ion-content
- style="--background: rgb(0, 0, 0);"
+  style="--background: rgb(0, 0, 0)"
   class="ion-padding-end ion-padding-start"
   [fullscreen]="true"
-  
 >
   <ion-card style="background-color: rgba(82, 82, 82, 0.151)">
     <ion-card-header>
-      <ion-card-title class="ion-text-center" style="--background:black"><ion-img [src]="'/assets/jkanelogo.png'"></ion-img></ion-card-title
-      >
+      <ion-card-title class="ion-text-center" style="--background: black"
+        ><ion-img [src]="'/assets/jkanelogo.png'"></ion-img
+      ></ion-card-title>
     </ion-card-header>
   </ion-card>
-  <ion-card *ngIf="!this.signingUp" style="background-color: rgba(82, 82, 82, 0.151)">
+  <ion-card
+    *ngIf="!this.signingUp"
+    style="background-color: rgba(82, 82, 82, 0.151)"
+  >
     <ion-card-content class="ion-margin-top">
       <ion-card-subtitle class="ion-text-center ion-margin-bottom fs-"
-        ><h1 style="color:#80d75c">
+        ><h1 style="color: #80d75c">
           Please Enter Your Phone Number
         </h1></ion-card-subtitle
       >
@@ -27,20 +30,28 @@
               type="tel"
               [(ngModel)]="this.phoneNumber"
               placeholder="Phone number"
-              (keyup.enter)="this.login()" 
+              (keyup.enter)="this.login()"
             ></ion-input>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button  [disabled]="this.disabledLogin" style="--background: rgba(82, 82, 82, 0.418); color: #80d75c;"  expand="block" (click)="login()"
+            <ion-button
+              [disabled]="this.disabledLogin"
+              style="--background: rgba(82, 82, 82, 0.418); color: #80d75c"
+              expand="block"
+              (click)="login()"
               >Get My Rewards</ion-button
             >
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
-            <ion-button  [disabled]="this.disabledLogin" style="--background: rgba(82, 82, 82, 0.418); color: #80d75c;" expand="block" (click)="signup()"
+            <ion-button
+              [disabled]="this.disabledLogin"
+              style="--background: rgba(82, 82, 82, 0.418); color: #80d75c"
+              expand="block"
+              (click)="signup()"
               >New Customer</ion-button
             >
           </ion-col>
@@ -48,16 +59,21 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="this.signingUp" style="background-color: rgba(82, 82, 82, 0.151)">
+  <ion-card
+    *ngIf="this.signingUp"
+    style="background-color: rgba(82, 82, 82, 0.151)"
+  >
     <ion-card-content class="ion-margin-top">
       <ion-card-subtitle class="ion-text-center ion-margin-bottom"
-        ><h1 style="color:#80d75c">Please Enter Your Phone Number</h1></ion-card-subtitle
+        ><h1 style="color: #80d75c">
+          Please Enter Your Name and Number
+        </h1></ion-card-subtitle
       >
       <ion-grid class="ion-margin">
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
             <ion-input
-            [disabled]="this.disabledLogin"
+              [disabled]="this.disabledLogin"
               max="12"
               color="medium"
               type="text"
@@ -69,35 +85,39 @@
         <ion-row class="ion-justify-content-center">
           <ion-col size="6">
             <ion-input
-            [disabled]="this.disabledLogin"
+              [disabled]="this.disabledLogin"
               max="12"
               color="medium"
               type="tel"
+              class="styled-input"
               [(ngModel)]="this.newCustomer.phone"
               placeholder="Phone number"
               (keyup.enter)="this.completeSignup()"
             ></ion-input>
           </ion-col>
         </ion-row>
-       <!-- create a 'Am I 21+ Check box' -->
+        <!-- create a 'Am I 21+ Check box' -->
         <ion-row class="ion-justify-content-center ion-text-center">
+          <ion-col size="3"> I am 21+. </ion-col>
           <ion-col size="3">
-            I am 21+.
+            <ion-checkbox [(ngModel)]="this.is21"></ion-checkbox>
           </ion-col>
-            <ion-col size="3">
-              <ion-checkbox
-              [(ngModel)]="this.is21"
-              ></ion-checkbox>
-            </ion-col>
-          </ion-row>
+        </ion-row>
         <ion-row class="ion-justify-content-center">
           <ion-col size="12">
-            <ion-button style="--background: rgba(82, 82, 82, 0.418);color: #80d75c" expand="block" [disabled]="!this.is21" (click)="completeSignup()"
+            <ion-button
+              style="--background: rgba(82, 82, 82, 0.418); color: #80d75c"
+              expand="block"
+              [disabled]="!this.is21"
+              (click)="completeSignup()"
               >Earn Rewards</ion-button
             >
           </ion-col>
           <ion-col size="12">
-            <ion-button style="--background: rgba(82, 82, 82, 0.418);color: #d75c5c" expand="block"  (click)="cancelSignup()"
+            <ion-button
+              style="--background: rgba(82, 82, 82, 0.418); color: #d75c5c"
+              expand="block"
+              (click)="cancelSignup()"
               >Cancel</ion-button
             >
           </ion-col>
@@ -106,5 +126,16 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-button  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.redirectToSendText()" [disabled]="!this.enableTexting" >Send Text</ion-button>
-<ion-button style="--background: rgba(82, 82, 82, 0.151); color: #80d75c;" class="ion-margin" (click)="this.promptStoreCode()" >Enter Store Code</ion-button>
+<ion-button
+  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c"
+  class="ion-margin"
+  (click)="this.redirectToSendText()"
+  [disabled]="!this.enableTexting"
+  >Send Text</ion-button
+>
+<ion-button
+  style="--background: rgba(82, 82, 82, 0.151); color: #80d75c"
+  class="ion-margin"
+  (click)="this.promptStoreCode()"
+  >Enter Store Code</ion-button
+>
