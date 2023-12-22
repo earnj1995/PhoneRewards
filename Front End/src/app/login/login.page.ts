@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
     {
       text: 'Cancel',
       role: 'cancel',
-      
+
       handler: () => {
         console.log('Alert canceled');
       },
@@ -64,12 +64,14 @@ export class LoginPage implements OnInit {
   ionViewWillEnter() {
     this.phoneNumber = '';
     console.log(this.jkaneSvc.getStoreCodeEnterDate());
-    if (this.jkaneSvc.getStoreCode() === undefined || this.is24HoursPassed(this.jkaneSvc.getStoreCodeEnterDate())) {
-        this.promptStoreCode();
+    if (
+      this.jkaneSvc.getStoreCode() === undefined ||
+      this.is24HoursPassed(this.jkaneSvc.getStoreCodeEnterDate())
+    ) {
+      this.promptStoreCode();
     }
-   
   }
-  async sendTextPrompt(){
+  async sendTextPrompt() {
     const alert = await this.alertCtrl.create({
       header: 'Please Store Code',
       inputs: [
@@ -78,9 +80,7 @@ export class LoginPage implements OnInit {
           placeholder: 'Code',
           min: 1,
           max: 100,
-         
         },
-        
       ],
       buttons: this.storeCodeAlertButtons,
     });
@@ -105,26 +105,27 @@ export class LoginPage implements OnInit {
     return currentDate.getTime() - storedDate.getTime() > twentyFourHours;
   }
   login() {
-    
     this.jkaneSvc.getPoints(this.phoneNumber).subscribe({
       next: (data: any) => {
-      console.log(data);
-      this.userSvc.setCurrentCustomer(data);
-      this.router.navigateByUrl('tabs/tab1');
-    }, error: (response: HttpErrorResponse) => {
-      if(response.error.message === 'Customer not found'){
-        this.toastrCtrl.create({
-          message: 'Customer not found, Please Sign Up',
-          duration: 4000,
-          position: 'top'
-        }).then((toast) => {
-          toast.present();
-        });
-        this.newCustomer.phone = this.phoneNumber;
-        this.signingUp = true;
-      }
-    }
-    
+        console.log(data);
+        this.userSvc.setCurrentCustomer(data);
+        this.router.navigateByUrl('tabs/tab1');
+      },
+      error: (response: HttpErrorResponse) => {
+        if (response.error.message === 'Customer not found') {
+          this.toastrCtrl
+            .create({
+              message: 'Customer not found, Please Sign Up',
+              duration: 4000,
+              position: 'top',
+            })
+            .then((toast) => {
+              toast.present();
+            });
+          this.newCustomer.phone = this.phoneNumber;
+          this.signingUp = true;
+        }
+      },
     });
   }
   signup() {
@@ -132,23 +133,27 @@ export class LoginPage implements OnInit {
   }
   completeSignup() {
     console.log(this.newCustomer);
-    if(this.is21){
-
+    if (this.is21) {
       this.jkaneSvc.signup(this.newCustomer).subscribe((data: any) => {
         console.log(data);
-        if(data.success){
+        if (data.success) {
           this.phoneNumber = this.newCustomer.phone;
+          this.newCustomer.phone = '';
+          this.newCustomer.name = '';
+          this.signingUp = false;
           this.login();
         }
       });
-    }else{
-      this.toastrCtrl.create({
-        message: 'Must be 21 or older',
-        duration: 4000,
-        position: 'top'
-      }).then((toast) => {
-        toast.present();
-      });
+    } else {
+      this.toastrCtrl
+        .create({
+          message: 'Must be 21 or older',
+          duration: 4000,
+          position: 'top',
+        })
+        .then((toast) => {
+          toast.present();
+        });
     }
   }
   async promptStoreCode() {
@@ -160,9 +165,7 @@ export class LoginPage implements OnInit {
           placeholder: 'Code',
           min: 1,
           max: 100,
-         
         },
-        
       ],
       buttons: this.storeCodeAlertButtons,
     });
@@ -182,33 +185,35 @@ export class LoginPage implements OnInit {
   cancelSignup() {
     this.signingUp = false;
     this.phoneNumber = '';
-    
-  }
-  enableLogin(storecode:string){
 
+    this.newCustomer.phone = '';
+    this.newCustomer.name = '';
+  }
+  enableLogin(storecode: string) {
     this.jkaneSvc.validateStoreCode(storecode.trim()).subscribe({
       next: (data: any) => {
-        if(data.success){
+        if (data.success) {
           this.jkaneSvc.setStoreCode(storecode);
           this.disabledLogin = false;
           this.enableTexting = true;
         }
       },
-      error:()=>{
+      error: () => {
         this.jkaneSvc.setStoreCode('');
         this.disabledLogin = true;
-        this.toastrCtrl.create({
-          message: 'Invalid Store Code',
-          duration: 4000,
-          position: 'top'
-        }).then((toast) => {
-          toast.present();
-        });
-      }
-  })
-}
-redirectToSendText(){
-
-this.router.navigateByUrl('tabs/tab2');
-}
+        this.toastrCtrl
+          .create({
+            message: 'Invalid Store Code',
+            duration: 4000,
+            position: 'top',
+          })
+          .then((toast) => {
+            toast.present();
+          });
+      },
+    });
+  }
+  redirectToSendText() {
+    this.router.navigateByUrl('tabs/tab2');
+  }
 }
