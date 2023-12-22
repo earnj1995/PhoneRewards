@@ -263,7 +263,7 @@ export class Tab1Page {
   logout() {
     console.log('whats up');
     this.userSvc.setCurrentCustomer(null);
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/login');
   }
   async presentToast(
     msg: string,
