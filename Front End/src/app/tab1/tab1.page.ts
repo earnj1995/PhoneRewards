@@ -11,10 +11,10 @@ import { JkaneSvcService } from '../services/jkane-svc.service';
 })
 export class Tab1Page {
   rewards = [
-    { text: '10% Off', value: 100 },
-    { text: '15% Off', value: 150 },
-    { text: '20% Off', value: 200 },
-    { text: '25% Off', value: 250 },
+    { text: '$5 Off', value: 200 },
+    { text: '$10 Off', value: 400 },
+    { text: '$15 Off', value: 600 },
+    { text: '$20 Off', value: 800 },
   ];
   minValue = this.rewards.reduce((min, reward) => {
     return reward.value < min ? reward.value : min;
